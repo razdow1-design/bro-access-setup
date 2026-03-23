@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>BRO ACCESS Setup</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: #0d0d0d; /* Matte Black из Якоря */
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        .step {
+            border-left: 2px solid #ffbf00; /* Glowing Amber из Якоря */
+            padding-left: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .step-circle {
+            width: 10px; height: 10px;
+            background: #ffbf00;
+            border-radius: 50%;
+            position: absolute; left: -6px; top: 5px;
+            box-shadow: 0 0 10px #ffbf00;
+        }
+        h2 { color: #ffbf00; font-size: 18px; margin-top: 0; }
+        .btn {
+            background: #1a1a1a;
+            border: 1px solid #ffbf00;
+            color: #ffbf00;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin: 10px 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        .btn:active { background: #ffbf00; color: #0d0d0d; }
+    </style>
+</head>
+<body>
+    <div id="setup-content">
+        <div class="step">
+            <div class="step-circle"></div>
+            <h2>Шаг 1: Скачивание</h2>
+            <p id="os-detect" style="color: #a0a0a0; font-size: 14px;">Определяем ваше устройство...</p>
+            <div id="download-links"></div>
+        </div>
+
+        <div class="step">
+            <div class="step-circle"></div>
+            <h2>Шаг 2: Магия подключения</h2>
+            <p style="color: #e0e0e0; font-size: 15px;">Нажмите кнопку ниже, чтобы автоматически импортировать настройки.</p>
+            <a href="v2ray://your-config-here" class="btn">⚡️ Добавить подписку</a>
+        </div>
+
+        <div class="step">
+            <div class="step-circle"></div>
+            <h2>Шаг 3: Проверка</h2>
+            <p style="color: #e0e0e0; font-size: 15px;">Вернитесь в бот для проверки статуса.</p>
+            <button class="btn" onclick="Telegram.WebApp.close()">Готово</button>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+        
+        // Авто-определение ОС
+        const os = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'iOS' : 'Android';
+        document.getElementById('os-detect').innerText = `Определено устройство: ${os}`;
+
+        // Подстановка нужных ссылок в зависимости от платформы
+        const links = document.getElementById('download-links');
+        if (os === 'iOS') {
+            links.innerHTML = '<a href="https://apps.apple.com/app/v2raytun/id1639733512" class="btn">Скачать v2rayTun (App Store)</a>';
+        } else {
+            links.innerHTML = '<a href="https://play.google.com/store/apps/details?id=com.v2ray.ang" class="btn">Скачать v2rayNG (Play Store)</a>';
+        }
+    </script>
+</body>
+</html>
