@@ -3,69 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>BRO ACCESS Setup</title>
+    <title>BRO ACCESS Setup | Bombastic UX</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* Главные стили Якоря */
         body {
-            background-color: #0d0d0d; /* Matte Black из Якоря */
+            background-color: #0d0d0d; /* Matte Black */
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            padding: 20px;
-            margin: 0;
+            padding: 0; margin: 0;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; /* Для позиционирования фона */
+            min-height: 100vh; /* Чтобы фон был на всю высоту */
         }
-        .step {
-            border-left: 2px solid #ffbf00; /* Glowing Amber из Якоря */
-            padding-left: 20px;
-            margin-bottom: 30px;
-            position: relative;
+
+        /* --- ВОТ НАШ ГЛАВНЫЙ БОМБИЧЕСКИЙ ЭЛЕМЕНТ (ФОНОВЫЙ ЛОГОТИП) --- */
+        body::before {
+            content: "";
+            /* ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА ССЫЛКУ НА ВАШ ЛОГОТИП НА GITHUB */
+            background-image: url('https://razdow1-design.github.io/bro-access-setup/logo.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain; /* Логотип не будет обрезан, он впишется */
+            background-attachment: fixed; /* Логотип стоит на месте при скролле */
+            position: fixed; /* Фиксируем на весь экран */
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.05; /* КРИТИЧЕСКИ ВАЖНО: Делаем его бледным водяным знаком (5%) */
+            z-index: -1; /* Уводим на самый задний план, под контент */
+            pointer-events: none; /* Чтобы клики проходили сквозь него к кнопкам */
         }
-        .step-circle {
-            width: 10px; height: 10px;
-            background: #ffbf00;
-            border-radius: 50%;
-            position: absolute; left: -6px; top: 5px;
-            box-shadow: 0 0 10px #ffbf00;
+        /* ----------------------------------------------------------- */
+
+        /* Блок заголовка и бренда */
+        #header {
+            width: 100%;
+            padding: 20px 0;
+            display: flex; flex-direction: column; align-items: center;
+            border-bottom: 1px solid #1a1a1a;
+            position: sticky; top: 0; background-color: #0d0d0d; z-index: 100;
         }
-        h2 { color: #ffbf00; font-size: 18px; margin-top: 0; }
+        #brand-name { color: #ffbf00; font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        #status-indicator { display: flex; align-items: center; gap: 8px; margin-top: 5px; font-size: 14px; color: #a0a0a0; }
+        #status-dot { width: 8px; height: 8px; background: #ffbf00; border-radius: 50%; box-shadow: 0 0 10px #ffbf00; }
+
+        /* Блок трафика и тарифа */
+        #traffic-card {
+            width: calc(100% - 40px);
+            background: #1a1a1a; border-radius: 12px;
+            padding: 15px; margin: 20px 0;
+            display: flex; flex-direction: column; gap: 10px;
+            backdrop-filter: blur(5px); /* Легкое размытие фона под карточкой */
+        }
+        .traffic-line { display: flex; justify-content: space-between; font-size: 14px; color: #e0e0e0; }
+        .progress-bar-bg { width: 100%; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { width: 0%; height: 100%; background: #ffbf00; box-shadow: 0 0 8px #ffbf00; } /* 0% used by default */
+        #days-left { color: #ffbf00; font-weight: bold; }
+
+        /* Пошаговая карта подключения */
+        #steps-container { width: calc(100% - 40px); display: flex; flex-direction: column; gap: 20px; padding-bottom: 30px;}
+        .step-block { position: relative; padding-left: 20px; border-left: 2px solid #ffbf00; }
+        .step-block::before { content: ''; width: 10px; height: 10px; background: #ffbf00; border-radius: 50%; position: absolute; left: -6px; top: 0; box-shadow: 0 0 10px #ffbf00; }
+        
+        .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .step-number { font-size: 20px; font-weight: bold; color: #ffbf00; opacity: 0.5; }
+        .step-title { font-size: 16px; font-weight: bold; color: #ffffff; }
+
+        #os-detect { color: #a0a0a0; font-size: 12px; margin-top: -8px; margin-bottom: 10px;}
+
+        /* Улучшенные премиальные кнопки */
         .btn {
             background: #1a1a1a;
             border: 1px solid #ffbf00;
             color: #ffbf00;
-            padding: 12px;
+            padding: 14px;
             width: 100%;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: bold;
             text-decoration: none;
-            display: inline-block;
+            display: flex; align-items: center; justify-content: center;
             text-align: center;
             margin: 10px 0;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-transform: uppercase; letter-spacing: 1px; font-size: 14px;
         }
-        .btn:active { background: #ffbf00; color: #0d0d0d; }
+        .btn:active { background: #ffbf00; color: #0d0d0d; transform: scale(0.98); box-shadow: 0 0 15px #ffbf00; }
     </style>
 </head>
 <body>
-    <div id="setup-content">
-        <div class="step">
-            <div class="step-circle"></div>
-            <h2>Шаг 1: Скачивание</h2>
-            <p id="os-detect" style="color: #a0a0a0; font-size: 14px;">Определяем ваше устройство...</p>
+    
+    <div id="header">
+        <div id="brand-name">BRO ACCESS</div>
+        <div id="status-indicator">
+            <div id="status-dot"></div>
+            Статус: ПОДКЛЮЧЕНО (Заглушка)
+        </div>
+    </div>
+
+    <div id="traffic-card">
+        <div class="traffic-line">
+            <span>Трафик: Использовано 0 ГБ</span>
+            <span style="opacity: 0.5;">Доступно: ∞</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill"></div> </div>
+        <div class="traffic-line" style="font-size: 12px;">
+            <span>Тариф: Премиум (Тест)</span>
+            <span>Осталось дней: <span id="days-left">∞</span></span>
+        </div>
+    </div>
+
+    <div id="steps-container">
+        <div class="step-block">
+            <div class="step-header">
+                <div class="step-number">01</div>
+                <div class="step-title">Скачивание приложения</div>
+            </div>
+            <p id="os-detect">Авто-определение...</p>
             <div id="download-links"></div>
         </div>
 
-        <div class="step">
-            <div class="step-circle"></div>
-            <h2>Шаг 2: Магия подключения</h2>
-            <p style="color: #e0e0e0; font-size: 15px;">Нажмите кнопку ниже, чтобы автоматически импортировать настройки.</p>
+        <div class="step-block">
+            <div class="step-header">
+                <div class="step-number">02</div>
+                <div class="step-title">Авто-подключение</div>
+            </div>
+            <p style="font-size: 14px; color: #e0e0e0;">Нажмите кнопку ниже, чтобы мгновенно импортировать настройки.</p>
             <a href="v2ray://your-config-here" class="btn">⚡️ Добавить подписку</a>
         </div>
 
-        <div class="step">
-            <div class="step-circle"></div>
-            <h2>Шаг 3: Проверка</h2>
-            <p style="color: #e0e0e0; font-size: 15px;">Вернитесь в бот для проверки статуса.</p>
-            <button class="btn" onclick="Telegram.WebApp.close()">Готово</button>
+        <div class="step-block" style="border-left: none; padding-left: 20px;">
+            <div class="step-header">
+                <div class="step-number">03</div>
+                <div class="step-title">Проверка связи</div>
+            </div>
+            <p style="font-size: 14px; color: #e0e0e0;">Вернитесь в бот для проверки защищенного соединения.</p>
+            <button class="btn" onclick="Telegram.WebApp.close()">Проверить статус</button>
         </div>
     </div>
 
@@ -79,7 +153,7 @@
         const os = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'iOS' : 'Android';
         document.getElementById('os-detect').innerText = `Определено устройство: ${os}`;
 
-        // Подстановка нужных ссылок в зависимости от платформы
+        // Подстановка нужных ссылок
         const links = document.getElementById('download-links');
         if (os === 'iOS') {
             links.innerHTML = '<a href="https://apps.apple.com/app/v2raytun/id1639733512" class="btn">Скачать v2rayTun (App Store)</a>';
